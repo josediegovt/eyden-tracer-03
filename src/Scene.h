@@ -23,14 +23,14 @@ public:
 		, m_bgColor(bgColor)
 	{}
   	~CScene(void) = default;
-  
-	
+
+
 	/**
 	 * @brief Loads the primitives from an .obj file and adds them to the scene
 	 * @param fileName The full path to the .obj file
 	 */
 	void ParseOBJ(const std::string& fileName);
-	
+
 	/**
 	 * @brief Adds a new primitive to the scene
 	 * @param prim Pointer to the primitive
@@ -47,7 +47,7 @@ public:
 	{
 		m_vpLights.push_back(pLight);
 	}
-  
+
 	/**
 	 * @brief Checks intersection of ray \b ray with all contained objects
 	 * @param ray The ray
@@ -90,6 +90,10 @@ public:
 	{
 		CBoundingBox res;
 		// --- PUT YOUR CODE HERE ---
+		for(auto pPrim : m_vpPrims){
+			res = res.extend(pPrim->calcBounds());
+		}
+
 		return res;
 	}
 	/**
@@ -103,7 +107,7 @@ public:
 		m_pBSPTree = std::make_unique<BSPTree>(box, m_vpPrims);
 	}
 #endif
-	
+
 	/**
 	 * @brief Traces the given ray and shade it
 	 * @param ray The ray
@@ -118,7 +122,7 @@ public:
 public:
 	std::unique_ptr<CCameraPerspective>		m_pCamera;
 	std::vector<std::shared_ptr<ILight>>	m_vpLights;						///< lights
-	
+
 private:
 	Vec3f									m_bgColor	= RGB(0, 0, 0);    	///< background color
 	std::vector<std::shared_ptr<CPrim>> 	m_vpPrims;						///< primitives

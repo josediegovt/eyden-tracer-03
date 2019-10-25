@@ -1,5 +1,5 @@
 # Practical Assignment 3
-**Name:** .......
+**Name:** Jonathan Rittmayer and Jose Villeda
 ## Problem 3.1
 ### OBJ Scene loader (Points 30)
 Until now we have only hardcoded our scene descriptions in main.cpp. This is of course not practical. In the new framework, a method ```CScene::ParseOBJ()``` is added to the class ```CScene```, in order to load a scene-description from an obj-file. To make the method work proceed as follows:
@@ -12,7 +12,7 @@ Test your implementation with cow.obj. If your obj-importer works as expected yo
 ![Cow](./doc/cow.jpg)
 
 **Hint:** The obj file-format can be dumped out from various 3d-modelers. Nevertheless, the output might differ from modeler to modeler and there are also other tokens like _vn_ for vertex normals or _vt_ for texture coordinates. Check
-[obj file format](https://www.cs.cmu.edu/~mbz/personal/graphics/obj.html) for a full description. 
+[obj file format](https://www.cs.cmu.edu/~mbz/personal/graphics/obj.html) for a full description.
 
 ## Problem 3.2
 ### Implementation of a kd-tree acceleration structure (Points 70)
@@ -25,7 +25,7 @@ So far, your own ray tracer implementation has used no acceleration structure fo
 6. Implement the method ```CBoundingBox CScene::CalcBounds()```, which should calculate the bounding box of the scene.
 7. Implement the method ```std::shared_ptr<CBSPNode> CBSPTree::BuildTree(const CBoundingBox& box, const std::vector<std::shared_ptr<CPrim>>& vpPrims, int depth)``` of the class ```CBSPTree```. As soon as you have reached a maximum depth (_e.g._ 20), or you have less then a minimum number of primitives (_e.g._ 3 or 4), stop subdividing and generate a voxel. Otherweise, split your voxel in the middle (in the maximum dimension), sort your current voxels primitives into two vector left and right, and recursively call BuildTree with the respective voxels and vector for left and right. Start subdivision with a list of all primitives, the total scene bounds, and an initial
 recursion depth of 0.  
-**Note:** BSP-tree is a special case of the KD-tree (for the 3-dimensional case, _e.g_ K=3). A very good implementation of the KD-tree may be found in the DGM-library repository: [KDTree.h](https://github.com/Project-10/DGM/blob/master/modules/DGM/KDTree.h) [KDTree.cpp](https://github.com/Project-10/DGM/blob/master/modules/DGM/KDTree.cpp) [KDNode.h](https://github.com/Project-10/DGM/blob/master/modules/DGM/KDNode.h) [KDNode.cpp](https://github.com/Project-10/DGM/blob/master/modules/DGM/KDNode.cpp). 
+**Note:** BSP-tree is a special case of the KD-tree (for the 3-dimensional case, _e.g_ K=3). A very good implementation of the KD-tree may be found in the DGM-library repository: [KDTree.h](https://github.com/Project-10/DGM/blob/master/modules/DGM/KDTree.h) [KDTree.cpp](https://github.com/Project-10/DGM/blob/master/modules/DGM/KDTree.cpp) [KDNode.h](https://github.com/Project-10/DGM/blob/master/modules/DGM/KDNode.h) [KDNode.cpp](https://github.com/Project-10/DGM/blob/master/modules/DGM/KDNode.cpp).
 8. For traversal, use a simple, recursive algorithm, see _Ray Tracing with the BSP tree, by Kelvin Sung and Peter Shirley, in Graphics Gems III_ or read the chapter 7.2 in the [thesis of Dr. Ingo Wald](http://www.sci.utah.edu/~wald/PhD/wald_phd.pdf).
 
 Instead of optimizing too much, rather concentrate on a stable, bug-free implementation.

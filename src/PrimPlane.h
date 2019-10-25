@@ -30,16 +30,23 @@ public:
 		ray.hit = this;
 		return true;
 	}
-	
+
 	virtual Vec3f GetNormal(const Ray& ray) const override { return m_normal; }
-	
+
 	virtual CBoundingBox calcBounds(void) const override
 	{
 		CBoundingBox bounds;
 		// --- PUT YOUR CODE HERE ---
+		float infinity = std::numeric_limits<float>::infinity();
+		float neg_infinity = -std::numeric_limits<float>::infinity();
+		Vec3f p_bound(infinity, infinity, infinity);
+		Vec3f n_bound(neg_infinity, neg_infinity, neg_infinity);
+		bounds.extend(p_bound);
+		bounds.extend(n_bound);
+
 		return bounds;
 	}
-	
+
 private:
 	Vec3f m_normal;	///< Point on the plane
 	Vec3f m_origin;	///< Normal to the plane

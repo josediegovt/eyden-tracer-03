@@ -25,7 +25,7 @@ public:
 	virtual bool Intersect(Ray &ray) override
 	{
 		// mathematical derivation, numerically not very stable, but simple
-		
+
 		// --> find roots of f(t) = ((R+tD)-C)^2 - r^2
 		// f(t) = (R-C)^2 + 2(R-C)(tD) + (tD)^2 -r^2
 		// --> f(t) = [D^2] t^2 + [2D(R-C)] t + [(R-C)^2 - r^2]
@@ -33,27 +33,27 @@ public:
 		float a = ray.dir.dot(ray.dir);
 		float b = 2 * ray.dir.dot(diff);
 		float c = diff.dot(diff) - m_radius * m_radius;
-		
+
 		// use 'abc'-formula for finding root t_1,2 = (-b +/- sqrt(b^2-4ac))/(2a)
 		float inRoot = b * b - 4 * a * c;
 		if (inRoot < 0) return false;
 		float root = sqrtf(inRoot);
-		
+
 		float dist = (-b - root) / (2 * a);
 		if (dist > ray.t)
 			return false;
-		
+
 		if (dist < Epsilon) {
 			dist = (-b + root) / (2 * a);
 			if (dist < Epsilon || dist > ray.t)
 				return false;
 		}
-		
+
 		ray.t = dist;
 		ray.hit = this;
 		return true;
 	}
-	
+
 	virtual Vec3f GetNormal(const Ray& ray) const override
 	{
 		Vec3f hit = ray.org + ray.t * ray.dir;
@@ -66,11 +66,23 @@ public:
 	{
 		CBoundingBox res;
 		// --- PUT YOUR CODE HERE ---
+		float x_negative = m_center[0] - m_radius;
+		float y_negative = m_center[1] - m_radius;
+		float z_negative = m_center[2] - m_radius;
+		Vec3f min(x_negative, y_negative, z_negative);
+
+		float x_positive = m_center[0] + m_radius;
+		float y_positive = m_center[1] + m_radius;
+		float z_positive = m_center[2] + m_radius;
+		Vec3f max(x_positive, y_positive, z_positive);
+
+		res.extend(min);
+		res.extend(max);
+
 		return res;
 	}
-	
+
 private:
 	Vec3f m_center;	///< Position of the center of the sphere
 	float m_radius;	///< Radius of the sphere
 };
-

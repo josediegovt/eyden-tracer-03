@@ -23,35 +23,35 @@ public:
 		, m_c(c)
   	{}
 	virtual ~CPrimTriangle(void) = default;
-	
+
 	virtual bool Intersect(Ray& ray) override
 	{
 		const Vec3f edge1 = m_b - m_a;
 		const Vec3f edge2 = m_c - m_a;
-		
+
 		const Vec3f pvec = ray.dir.cross(edge2);
-		
+
 		const float det = edge1.dot(pvec);
 		if (fabs(det) < Epsilon) return false;
-		
+
 		const float inv_det = 1.0f / det;
-		
+
 		const Vec3f tvec = ray.org - m_a;
 		float lambda = tvec.dot(pvec);
 		lambda *= inv_det;
-		
+
 		if (lambda < 0.0f || lambda > 1.0f) return false;
-		
+
 		const Vec3f qvec = tvec.cross(edge1);
 		float mue = ray.dir.dot(qvec);
 		mue *= inv_det;
-		
+
 		if (mue < 0.0f || mue + lambda > 1.0f) return false;
-		
+
 		float f = edge2.dot(qvec);
 		f *= inv_det;
 		if (ray.t <= f || f <  Epsilon  ) return false;
-		
+
 		ray.t = f;
 		ray.hit = this;
 		return true;
@@ -64,14 +64,18 @@ public:
 		Vec3f normal = normalize(edge1.cross(edge2));
 		return normal;
 	}
-	
+
 	virtual CBoundingBox calcBounds(void) const override
 	{
 		CBoundingBox res;
 		// --- PUT YOUR CODE HERE ---
+		res.extend(m_a);
+		res.extend(m_b);
+		res.extend(m_c);
+
 		return res;
 	}
-	
+
 private:
 	Vec3f m_a;	///< Position of the first vertex
 	Vec3f m_b;	///< Position of the second vertex
